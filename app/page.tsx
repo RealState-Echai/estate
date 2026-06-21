@@ -139,38 +139,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured listings */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
-          <div>
-            <p className="eyebrow">Featured residences</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-              This season&apos;s most coveted homes
-            </h2>
-          </div>
-          <Link
-            href="/properties"
-            className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
-          >
-            View all properties
-            <ArrowRight className="size-4" />
-          </Link>
-        </div>
-
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((property, i) => (
-            <PropertyCard
-              key={property.slug}
-              property={property}
-              priority={i < 3}
-            />
-          ))}
-        </div>
-      </section>
-
       {/* Auction highlights */}
       {auctionHighlights.length > 0 && (
-        <section className="border-y border-border bg-muted/40">
+        <section className="border-b border-border bg-muted/40">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
             <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
               <div>
@@ -209,6 +180,35 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Featured listings */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+          <div>
+            <p className="eyebrow">Featured residences</p>
+            <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
+              This season&apos;s most coveted homes
+            </h2>
+          </div>
+          <Link
+            href="/properties"
+            className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
+          >
+            View all properties
+            <ArrowRight className="size-4" />
+          </Link>
+        </div>
+
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((property, i) => (
+            <PropertyCard
+              key={property.slug}
+              property={property}
+              priority={i < 3}
+            />
+          ))}
+        </div>
+      </section>
 
       {/* Value props */}
       <section className="bg-muted/50">
