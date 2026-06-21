@@ -32,8 +32,8 @@ export default async function Image({
     : "";
   const price = property
     ? property.status === "for-rent"
-      ? `${formatPrice(property.price)}/mo`
-      : formatPrice(property.price)
+      ? `${formatPrice(property.price, property.currency)}/mo`
+      : formatPrice(property.price, property.currency)
     : "";
   const meta = property
     ? `${property.bedrooms} bd · ${property.bathrooms} ba · ${formatNumber(property.area)} sqft`

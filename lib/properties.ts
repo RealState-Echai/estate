@@ -4,13 +4,15 @@
  * the listings grid, detail pages, sitemap, and JSON-LD all update from it.
  */
 
-export type PropertyStatus = "for-sale" | "for-rent" | "sold";
+export type PropertyStatus = "for-sale" | "for-rent" | "sold" | "auction";
 export type PropertyType =
   | "villa"
   | "penthouse"
   | "estate"
   | "apartment"
-  | "townhouse";
+  | "townhouse"
+  | "plot";
+export type Currency = "USD" | "INR";
 
 export interface PropertyImage {
   url: string;
@@ -29,7 +31,7 @@ export interface Property {
   type: PropertyType;
   status: PropertyStatus;
   price: number;
-  currency: "USD";
+  currency: Currency;
   bedrooms: number;
   bathrooms: number;
   /** Interior area in square feet. */
@@ -441,6 +443,127 @@ export const properties: Property[] = [
       email: "priya@example.com",
     },
   },
+  {
+    slug: "karur-auction-plot",
+    propertyId: "RT-007",
+    facing: "North",
+    verified: true,
+    ownerDirect: false,
+    hotDeal: true,
+    featured: false,
+    title: "Karur Plot with Building — Bank Auction",
+    excerpt:
+      "1,807 sq ft north-facing plot (30 × 60) with building on a 30 ft road. Bank auction on 12 Mar 2026.",
+    description: [
+      "A north-facing 30 × 60 plot (1,807 sq ft) in a well-connected residential pocket of Karur, with an existing building on site and frontage to a 30 ft road. Clear title and ready for occupation or redevelopment.",
+      "Offered via bank auction on 12 March 2026. Interested buyers can arrange a site inspection and review the auction terms ahead of the date.",
+    ],
+    type: "plot",
+    status: "auction",
+    price: 4800000,
+    currency: "INR",
+    bedrooms: 2,
+    bathrooms: 2,
+    area: 1807,
+    lotSize: 1807,
+    yearBuilt: 2012,
+    garage: 1,
+    address: {
+      street: "Ramanujam Nagar",
+      city: "Karur",
+      region: "TN",
+      postalCode: "639002",
+      country: "IN",
+    },
+    geo: { lat: 10.956832, lng: 78.071727 },
+    streetView: { heading: 176 },
+    nearby: [
+      { name: "Karur Junction Railway Station", distance: "3.0 km" },
+      { name: "Government Hospital, Karur", distance: "2.5 km" },
+      { name: "Pasupathipalayam", distance: "1.5 km" },
+      { name: "Karur Central Bus Stand", distance: "3.2 km" },
+    ],
+    features: [
+      "30 × 60 plot (1,807 sq ft)",
+      "North facing",
+      "30 ft road frontage",
+      "Existing building included",
+      "Clear, single-owner title",
+      "Bank-auction opportunity",
+    ],
+    images: [
+      img("photo-1568605114967-8130f3a36994", "Residential house exterior in Karur"),
+      img("photo-1570129477492-45c003edd2be", "Independent home with compound wall"),
+      img("photo-1582268611958-ebfd161ef9cf", "Street frontage of the property"),
+      img("photo-1564013799919-ab600027ffc6", "Front elevation of the building"),
+    ],
+    agent: {
+      name: "Arun Kumar",
+      title: "Auction & Land Advisor",
+      phone: "+1-555-0100",
+      email: "arun@example.com",
+    },
+  },
+  {
+    slug: "coimbatore-bharathi-park-plot",
+    propertyId: "RT-008",
+    facing: "East",
+    verified: true,
+    ownerDirect: true,
+    featured: false,
+    title: "Bharathi Park Residential Plot",
+    excerpt:
+      "Premium DTCP-approved residential plot near Bharathi Park, Coimbatore — gated neighbourhood, walkable to schools and cafes.",
+    description: [
+      "An east-facing residential plot in one of Coimbatore's most sought-after pockets near Bharathi Park. Surrounded by established homes and apartments, with quiet cross-streets and excellent connectivity.",
+      "DTCP approved with clear title — ready to build your dream home. Schools, cafes, and daily conveniences are all within a short walk.",
+    ],
+    type: "plot",
+    status: "for-sale",
+    price: 9500000,
+    currency: "INR",
+    bedrooms: 0,
+    bathrooms: 0,
+    area: 2400,
+    lotSize: 2400,
+    yearBuilt: 2024,
+    garage: 0,
+    address: {
+      street: "Bharathi Park Cross Road",
+      city: "Coimbatore",
+      region: "TN",
+      postalCode: "641011",
+      country: "IN",
+    },
+    geo: { lat: 11.0238056, lng: 76.9429722 },
+    streetView: { heading: 90 },
+    nearby: [
+      { name: "Bharathi Park", distance: "0.3 km" },
+      { name: "PSG College of Technology", distance: "2.0 km" },
+      { name: "Brookefields Mall", distance: "3.5 km" },
+      { name: "Coimbatore Junction", distance: "5.0 km" },
+    ],
+    features: [
+      "DTCP approved",
+      "East facing",
+      "Gated residential area",
+      "Walk to schools & parks",
+      "Clear, ready-to-register title",
+      "Ready to build",
+    ],
+    images: [
+      img("photo-1500382017468-9049fed747ef", "Open residential plot ready to build"),
+      img("photo-1448630360428-65456885c650", "Tree-lined residential street"),
+      img("photo-1494526585095-c41746248156", "Neighbouring modern homes"),
+      img("photo-1416331108676-a22ccb276e35", "Vacant land parcel with greenery"),
+    ],
+    agent: {
+      name: "Meena Raghavan",
+      title: "Coimbatore Land Specialist",
+      phone: "+1-555-0100",
+      email: "meena@example.com",
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -484,6 +607,7 @@ export const statusLabels: Record<PropertyStatus, string> = {
   "for-sale": "For Sale",
   "for-rent": "For Rent",
   sold: "Sold",
+  auction: "Auction",
 };
 
 export const typeLabels: Record<PropertyType, string> = {
@@ -492,4 +616,5 @@ export const typeLabels: Record<PropertyType, string> = {
   estate: "Estate",
   apartment: "Apartment",
   townhouse: "Townhouse",
+  plot: "Plot",
 };

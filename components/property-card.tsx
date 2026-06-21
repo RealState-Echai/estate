@@ -1,16 +1,17 @@
-import Image from "next/image";
 import Link from "next/link";
-import { BedDouble, Bath, Maximize, BadgeCheck, TrendingUp } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import {
+  BedDouble,
+  Bath,
+  Maximize,
+  Compass,
+  BadgeCheck,
+  TrendingUp,
+} from "lucide-react";
+import { CardMedia } from "@/components/card-media";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { formatNumber, formatPrice } from "@/lib/utils";
 import { whatsappLink } from "@/lib/site";
-import {
-  type Property,
-  statusLabels,
-  typeLabels,
-  pricePerSqft,
-} from "@/lib/properties";
+import { type Property, pricePerSqft } from "@/lib/properties";
 
 export function PropertyCard({
   property,
@@ -21,42 +22,18 @@ export function PropertyCard({
 }) {
   const priceLabel =
     property.status === "for-rent"
-      ? `${formatPrice(property.price)}/mo`
-      : formatPrice(property.price);
+      ? `${formatPrice(property.price, property.currency)}/mo`
+      : formatPrice(property.price, property.currency);
 
   const enquiry = whatsappLink(
     `Hi, I'm interested in ${property.title} (${property.propertyId}) — ${priceLabel}. Is it still available?`,
   );
 
+  const isLand = property.bedrooms === 0 && property.bathrooms === 0;
+
   return (
     <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-shadow duration-200 hover:shadow-xl hover:shadow-black/5">
-      <Link
-        href={`/properties/${property.slug}`}
-        className="block focus-visible:outline-none"
-        aria-label={`${property.title} — ${priceLabel}`}
-      >
-        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-          <Image
-            src={property.images[0].url}
-            alt={property.images[0].alt}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            priority={priority}
-          />
-          <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-            <Badge variant="accent">{statusLabels[property.status]}</Badge>
-            <Badge variant="outline" className="bg-background/90">
-              {typeLabels[property.type]}
-            </Badge>
-          </div>
-          {property.hotDeal && (
-            <div className="absolute right-4 top-4">
-              <Badge className="bg-red-600 text-white">Hot deal</Badge>
-            </div>
-          )}
-        </div>
-      </Link>
+      <CardMedia property={property} priority={priority} />
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-center justify-between gap-2">
@@ -72,7 +49,8 @@ export function PropertyCard({
         </div>
         {property.status !== "for-rent" && (
           <p className="mt-0.5 text-xs text-muted-foreground">
-            {formatPrice(pricePerSqft(property))}/sqft · {property.propertyId}
+            {formatPrice(pricePerSqft(property), property.currency)}/sqft ·{" "}
+            {property.propertyId}
           </p>
         )}
 
@@ -102,21 +80,38 @@ export function PropertyCard({
         </div>
 
         <dl className="mt-4 flex items-center gap-5 border-t border-border pt-4 text-sm text-foreground/80">
-          <div className="flex items-center gap-1.5">
-            <BedDouble className="size-4 text-accent" aria-hidden />
-            <dt className="sr-only">Bedrooms</dt>
-            <dd>{property.bedrooms} bd</dd>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Bath className="size-4 text-accent" aria-hidden />
-            <dt className="sr-only">Bathrooms</dt>
-            <dd>{property.bathrooms} ba</dd>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <Maximize className="size-4 text-accent" aria-hidden />
-            <dt className="sr-only">Interior area</dt>
-            <dd>{formatNumber(property.area)} sqft</dd>
-          </div>
+          {isLand ? (
+            <>
+              <div className="flex items-center gap-1.5">
+                <Maximize className="size-4 text-accent" aria-hidden />
+                <dt className="sr-only">Plot area</dt>
+                <dd>{formatNumber(property.area)} sqft</dd>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Compass className="size-4 text-accent" aria-hidden />
+                <dt className="sr-only">Facing</dt>
+                <dd>{property.facing} facing</dd>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-1.5">
+                <BedDouble className="size-4 text-accent" aria-hidden />
+                <dt className="sr-only">Bedrooms</dt>
+                <dd>{property.bedrooms} bd</dd>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Bath className="size-4 text-accent" aria-hidden />
+                <dt className="sr-only">Bathrooms</dt>
+                <dd>{property.bathrooms} ba</dd>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Maximize className="size-4 text-accent" aria-hidden />
+                <dt className="sr-only">Interior area</dt>
+                <dd>{formatNumber(property.area)} sqft</dd>
+              </div>
+            </>
+          )}
         </dl>
 
         <div className="mt-4 flex items-center gap-2">

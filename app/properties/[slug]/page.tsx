@@ -57,8 +57,8 @@ export async function generateMetadata({
   const path = `/properties/${property.slug}`;
   const priceLabel =
     property.status === "for-rent"
-      ? `${formatPrice(property.price)}/mo`
-      : formatPrice(property.price);
+      ? `${formatPrice(property.price, property.currency)}/mo`
+      : formatPrice(property.price, property.currency);
   const title = `${property.title} — ${property.address.city}, ${property.address.region}`;
   const description = `${property.excerpt} ${property.bedrooms} bed · ${property.bathrooms} bath · ${formatNumber(property.area)} sqft · ${priceLabel}.`;
 
@@ -104,20 +104,27 @@ export default async function PropertyDetailPage({
 
   const priceLabel =
     property.status === "for-rent"
-      ? `${formatPrice(property.price)}/mo`
-      : formatPrice(property.price);
+      ? `${formatPrice(property.price, property.currency)}/mo`
+      : formatPrice(property.price, property.currency);
 
+  const isLand = property.bedrooms === 0 && property.bathrooms === 0;
   const facts = [
-    { icon: BedDouble, label: "Bedrooms", value: property.bedrooms },
-    { icon: Bath, label: "Bathrooms", value: property.bathrooms },
+    ...(isLand
+      ? []
+      : [
+          { icon: BedDouble, label: "Bedrooms", value: property.bedrooms },
+          { icon: Bath, label: "Bathrooms", value: property.bathrooms },
+        ]),
     {
       icon: Maximize,
-      label: "Interior",
+      label: isLand ? "Plot area" : "Interior",
       value: `${formatNumber(property.area)} sqft`,
     },
-    { icon: Car, label: "Garage", value: `${property.garage} cars` },
-    { icon: CalendarDays, label: "Year built", value: property.yearBuilt },
     { icon: Compass, label: "Facing", value: property.facing },
+    { icon: CalendarDays, label: "Year built", value: property.yearBuilt },
+    ...(isLand
+      ? []
+      : [{ icon: Car, label: "Garage", value: `${property.garage} cars` }]),
   ];
 
   const isSale = property.status !== "for-rent";
@@ -125,13 +132,13 @@ export default async function PropertyDetailPage({
     isSale
       ? {
           label: "Price / sqft",
-          value: formatPrice(pricePerSqft(property)),
+          value: formatPrice(pricePerSqft(property), property.currency),
         }
       : null,
     property.monthlyIncome != null
       ? {
           label: "Monthly income",
-          value: `${formatPrice(property.monthlyIncome)}/mo`,
+          value: `${formatPrice(property.monthlyIncome, property.currency)}/mo`,
         }
       : null,
     property.rentalYield != null
