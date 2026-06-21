@@ -127,7 +127,7 @@ export function SiteFooter() {
           <p>
             © {year} {siteConfig.legalName}. All rights reserved.
           </p>
-          <p>Equal Housing Opportunity · DRE #01234567</p>
+          <p>Equal Housing Opportunity · DRE #00000000</p>
         </div>
       </div>
     </footer>

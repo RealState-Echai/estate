@@ -13,14 +13,14 @@ export const siteConfig = {
   legalName: "Estate Realty LLC",
   // Falls back to a sensible default so builds work before the env var is set.
   url: normalizeUrl(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.estate-realty.com",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.example.com",
   ),
   title: "Estate — Luxury Homes & Premium Real Estate",
   description:
     "Discover an exclusive collection of luxury homes, waterfront estates, and architectural residences. Curated listings, private viewings, and expert guidance.",
   tagline: "Exceptional homes, effortlessly found.",
   locale: "en_US",
-  twitter: "@estaterealty",
+  twitter: "@example",
   keywords: [
     "luxury real estate",
     "luxury homes for sale",
@@ -31,20 +31,20 @@ export const siteConfig = {
     "real estate agency",
   ],
   contact: {
-    email: "hello@estate-realty.com",
-    phone: "+1-415-555-0188",
+    email: "hello@example.com",
+    phone: "+1-555-0100",
     address: {
-      street: "120 Marina Boulevard, Suite 400",
-      city: "San Francisco",
+      street: "123 Example Street, Suite 100",
+      city: "Anytown",
       region: "CA",
-      postalCode: "94123",
+      postalCode: "00000",
       country: "US",
     },
   },
   social: {
-    twitter: "https://twitter.com/estaterealty",
-    instagram: "https://instagram.com/estaterealty",
-    linkedin: "https://www.linkedin.com/company/estaterealty",
+    twitter: "https://example.com/",
+    instagram: "https://example.com/",
+    linkedin: "https://example.com/",
   },
 } as const;
 

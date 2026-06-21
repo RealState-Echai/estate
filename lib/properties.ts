@@ -105,8 +105,8 @@ export const properties: Property[] = [
     agent: {
       name: "Vivienne Laurent",
       title: "Senior Estate Advisor",
-      phone: "+1-415-555-0143",
-      email: "vivienne@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "vivienne@example.com",
     },
   },
   {
@@ -153,8 +153,8 @@ export const properties: Property[] = [
     agent: {
       name: "Marcus Reyes",
       title: "Director, Urban Collection",
-      phone: "+1-415-555-0177",
-      email: "marcus@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "marcus@example.com",
     },
   },
   {
@@ -202,8 +202,8 @@ export const properties: Property[] = [
     agent: {
       name: "Eleanor Whitfield",
       title: "Principal, Legacy Estates",
-      phone: "+1-650-555-0121",
-      email: "eleanor@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "eleanor@example.com",
     },
   },
   {
@@ -250,8 +250,8 @@ export const properties: Property[] = [
     agent: {
       name: "Daniel Okafor",
       title: "Waterfront Specialist",
-      phone: "+1-415-555-0190",
-      email: "daniel@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "daniel@example.com",
     },
   },
   {
@@ -299,8 +299,8 @@ export const properties: Property[] = [
     agent: {
       name: "Sofia Marchetti",
       title: "Country & Vineyard Estates",
-      phone: "+1-707-555-0166",
-      email: "sofia@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "sofia@example.com",
     },
   },
   {
@@ -347,8 +347,8 @@ export const properties: Property[] = [
     agent: {
       name: "Priya Anand",
       title: "City Leasing Advisor",
-      phone: "+1-415-555-0102",
-      email: "priya@estate-realty.com",
+      phone: "+1-555-0100",
+      email: "priya@example.com",
     },
   },
 ];
