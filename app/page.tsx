@@ -6,10 +6,13 @@ import {
   KeyRound,
   Sparkles,
   ArrowRight,
+  Gavel,
 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
+import { AuctionCard } from "@/components/auction-card";
 import { getFeaturedProperties, typeLabels } from "@/lib/properties";
+import { groupAuctions, auctionStatus } from "@/lib/auctions";
 import { siteConfig } from "@/lib/site";
 
 const stats = [
@@ -39,6 +42,10 @@ const valueProps = [
 
 export default function HomePage() {
   const featured = getFeaturedProperties();
+
+  // Auction highlights: prioritise live, then soonest upcoming.
+  const { live, upcoming } = groupAuctions();
+  const auctionHighlights = [...live, ...upcoming].slice(0, 3);
 
   return (
     <>
@@ -160,6 +167,48 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Auction highlights */}
+      {auctionHighlights.length > 0 && (
+        <section className="border-y border-border bg-muted/40">
+          <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <p className="eyebrow inline-flex items-center gap-2">
+                  <Gavel className="size-4" aria-hidden />
+                  Bank &amp; SARFAESI e-auctions
+                </p>
+                <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
+                  {live.length > 0
+                    ? "Live & upcoming auctions"
+                    : "Upcoming property auctions"}
+                </h2>
+                <p className="mt-2 max-w-xl text-muted-foreground">
+                  Reserve price, EMD, and exact map location for every lot —
+                  evaluate and bid with confidence.
+                </p>
+              </div>
+              <Link
+                href="/auctions"
+                className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-colors hover:text-accent/80"
+              >
+                View all auctions
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {auctionHighlights.map((auction) => (
+                <AuctionCard
+                  key={auction.slug}
+                  auction={auction}
+                  status={auctionStatus(auction)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Value props */}
       <section className="bg-muted/50">
