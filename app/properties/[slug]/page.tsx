@@ -20,6 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
+import { PropertyMap } from "@/components/property-map";
 import { JsonLd } from "@/components/json-ld";
 import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { formatNumber, formatPrice } from "@/lib/utils";
@@ -371,6 +372,56 @@ export default async function PropertyDetailPage({
                 </div>
               </div>
             </div>
+          </aside>
+        </div>
+      </section>
+
+      {/* Location & surroundings */}
+      <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-2">
+          <MapPin className="size-5 text-accent" aria-hidden />
+          <h2 className="font-display text-2xl font-semibold sm:text-3xl">
+            Location &amp; surroundings
+          </h2>
+        </div>
+        <p className="mt-2 text-muted-foreground">
+          {property.address.street}, {property.address.city},{" "}
+          {property.address.region} {property.address.postalCode}. Switch between
+          satellite, map, and street view, or open directions.
+        </p>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <PropertyMap
+              lat={property.geo.lat}
+              lng={property.geo.lng}
+              title={property.title}
+              facing={property.facing}
+              heading={property.streetView?.heading ?? 0}
+            />
+          </div>
+
+          <aside className="rounded-lg border border-border bg-card p-6">
+            <h3 className="font-display text-lg font-medium">What&apos;s nearby</h3>
+            <ul className="mt-4 space-y-3">
+              {property.nearby.map((poi) => (
+                <li
+                  key={poi.name}
+                  className="flex items-start justify-between gap-3 border-b border-border pb-3 last:border-0 last:pb-0"
+                >
+                  <span className="flex items-start gap-2 text-sm text-foreground/85">
+                    <MapPin
+                      className="mt-0.5 size-4 shrink-0 text-accent"
+                      aria-hidden
+                    />
+                    {poi.name}
+                  </span>
+                  <span className="shrink-0 text-sm font-medium text-muted-foreground">
+                    {poi.distance}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </aside>
         </div>
       </section>

@@ -56,6 +56,10 @@ export interface Property {
     country: string;
   };
   geo: { lat: number; lng: number };
+  /** Optional Street View framing (degrees). */
+  streetView?: { heading: number; pitch?: number };
+  /** Nearby points of interest shown in the location section. */
+  nearby: { name: string; distance: string }[];
   features: string[];
   images: PropertyImage[];
   agent: {
@@ -104,6 +108,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 36.5552, lng: -121.9233 },
+    streetView: { heading: 160 },
+    nearby: [
+      { name: "Carmel Beach", distance: "0.4 mi" },
+      { name: "Pebble Beach Golf Links", distance: "3.2 mi" },
+      { name: "Carmel Plaza shopping", distance: "1.1 mi" },
+      { name: "Point Lobos State Reserve", distance: "2.8 mi" },
+    ],
     features: [
       "Infinity-edge pool",
       "Floor-to-ceiling ocean views",
@@ -158,6 +169,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 37.7897, lng: -122.3942 },
+    streetView: { heading: 90 },
+    nearby: [
+      { name: "Ferry Building Marketplace", distance: "0.3 mi" },
+      { name: "Salesforce Park", distance: "0.5 mi" },
+      { name: "Financial District", distance: "0.2 mi" },
+      { name: "Bay Bridge", distance: "0.6 mi" },
+    ],
     features: [
       "Private elevator entry",
       "Wraparound rooftop terrace",
@@ -211,6 +229,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 37.4613, lng: -122.1977 },
+    streetView: { heading: 200 },
+    nearby: [
+      { name: "Stanford University", distance: "4.5 mi" },
+      { name: "Menlo Country Club", distance: "1.2 mi" },
+      { name: "Sand Hill Road", distance: "3.0 mi" },
+      { name: "Atherton Caltrain", distance: "0.9 mi" },
+    ],
     features: [
       "Gated 1.5-acre grounds",
       "Tennis court",
@@ -266,6 +291,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 37.8591, lng: -122.4853 },
+    streetView: { heading: 280 },
+    nearby: [
+      { name: "Sausalito Ferry Terminal", distance: "0.5 mi" },
+      { name: "Marinship Park", distance: "0.7 mi" },
+      { name: "Bridgeway shops & dining", distance: "0.4 mi" },
+      { name: "Golden Gate Bridge", distance: "2.1 mi" },
+    ],
     features: [
       "Private elevator",
       "Deeded dock access",
@@ -321,6 +353,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 38.5025, lng: -122.2654 },
+    streetView: { heading: 120 },
+    nearby: [
+      { name: "Downtown Napa", distance: "6.0 mi" },
+      { name: "Oxbow Public Market", distance: "6.3 mi" },
+      { name: "Silverado Trail", distance: "1.5 mi" },
+      { name: "Napa Valley Wine Train", distance: "6.1 mi" },
+    ],
     features: [
       "Five-acre working vineyard",
       "Barrel room & tasting lounge",
@@ -374,6 +413,13 @@ export const properties: Property[] = [
       country: "US",
     },
     geo: { lat: 37.7765, lng: -122.3936 },
+    streetView: { heading: 45 },
+    nearby: [
+      { name: "Oracle Park", distance: "0.6 mi" },
+      { name: "Caltrain 4th & King", distance: "0.4 mi" },
+      { name: "Yerba Buena Gardens", distance: "0.7 mi" },
+      { name: "Moscone Center", distance: "0.5 mi" },
+    ],
     features: [
       "Original cast-iron columns",
       "12-foot windows",
