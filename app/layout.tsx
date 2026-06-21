@@ -3,6 +3,7 @@ import { Cinzel, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { FloatingContact } from "@/components/floating-contact";
 import { JsonLd } from "@/components/json-ld";
 import { siteConfig } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/structured-data";
@@ -98,6 +99,7 @@ export default function RootLayout({
         <main id="main-content" className="flex-1">
           {children}
         </main>
+        <FloatingContact />
         <SiteFooter />
       </body>
     </html>

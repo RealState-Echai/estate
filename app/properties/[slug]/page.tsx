@@ -9,7 +9,10 @@ import {
   Car,
   CalendarDays,
   MapPin,
+  Compass,
   Check,
+  BadgeCheck,
+  TrendingUp,
   Phone,
   Mail,
   ChevronRight,
@@ -18,13 +21,16 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { PropertyCard } from "@/components/property-card";
 import { JsonLd } from "@/components/json-ld";
+import { WhatsAppIcon } from "@/components/whatsapp-icon";
 import { formatNumber, formatPrice } from "@/lib/utils";
+import { whatsappLink } from "@/lib/site";
 import {
   getAllProperties,
   getAllPropertySlugs,
   getPropertyBySlug,
   statusLabels,
   typeLabels,
+  pricePerSqft,
 } from "@/lib/properties";
 import { breadcrumbSchema, propertySchema } from "@/lib/structured-data";
 
@@ -110,8 +116,31 @@ export default async function PropertyDetailPage({
     },
     { icon: Car, label: "Garage", value: `${property.garage} cars` },
     { icon: CalendarDays, label: "Year built", value: property.yearBuilt },
-    { icon: MapPin, label: "Type", value: typeLabels[property.type] },
+    { icon: Compass, label: "Facing", value: property.facing },
   ];
+
+  const isSale = property.status !== "for-rent";
+  const investment = [
+    isSale
+      ? {
+          label: "Price / sqft",
+          value: formatPrice(pricePerSqft(property)),
+        }
+      : null,
+    property.monthlyIncome != null
+      ? {
+          label: "Monthly income",
+          value: `${formatPrice(property.monthlyIncome)}/mo`,
+        }
+      : null,
+    property.rentalYield != null
+      ? { label: "Gross yield", value: `${property.rentalYield}%` }
+      : null,
+  ].filter((x): x is { label: string; value: string } => x !== null);
+
+  const enquiry = whatsappLink(
+    `Hi, I'm interested in ${property.title} (${property.propertyId}) — ${priceLabel}. Could you share more details?`,
+  );
 
   const related = getAllProperties()
     .filter((p) => p.slug !== property.slug && p.type === property.type)
@@ -198,6 +227,22 @@ export default async function PropertyDetailPage({
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant="accent">{statusLabels[property.status]}</Badge>
               <Badge variant="muted">{typeLabels[property.type]}</Badge>
+              {property.hotDeal && (
+                <Badge className="bg-red-600 text-white">Hot deal</Badge>
+              )}
+              {property.verified && (
+                <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700">
+                  <BadgeCheck className="size-4" aria-hidden /> Verified
+                </span>
+              )}
+              {property.ownerDirect && (
+                <span className="text-xs font-medium text-muted-foreground">
+                  Owner-direct
+                </span>
+              )}
+              <span className="text-xs text-muted-foreground">
+                ID: {property.propertyId}
+              </span>
             </div>
             <h1 className="mt-4 font-display text-3xl font-semibold sm:text-4xl">
               {property.title}
@@ -222,6 +267,28 @@ export default async function PropertyDetailPage({
                 </div>
               ))}
             </dl>
+
+            {/* Investment snapshot */}
+            {investment.length > 0 && (
+              <div className="mt-8 rounded-lg border border-emerald-200 bg-emerald-50/60 p-6">
+                <h2 className="flex items-center gap-2 font-display text-lg font-semibold text-emerald-800">
+                  <TrendingUp className="size-5" aria-hidden /> Investment
+                  snapshot
+                </h2>
+                <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+                  {investment.map((item) => (
+                    <div key={item.label}>
+                      <dt className="text-xs uppercase tracking-wide text-emerald-700/80">
+                        {item.label}
+                      </dt>
+                      <dd className="mt-1 font-display text-xl font-semibold text-emerald-900">
+                        {item.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
 
             {/* Description */}
             <div className="mt-10">
@@ -273,6 +340,14 @@ export default async function PropertyDetailPage({
                 </p>
 
                 <div className="mt-5 flex flex-col gap-3">
+                  <a
+                    href={enquiry}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#25D366] px-6 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  >
+                    <WhatsAppIcon className="size-4" /> Enquire on WhatsApp
+                  </a>
                   <Link
                     href="/contact"
                     className={buttonVariants({ variant: "accent" })}

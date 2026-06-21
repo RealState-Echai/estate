@@ -33,6 +33,8 @@ export const siteConfig = {
   contact: {
     email: "hello@example.com",
     phone: "+1-555-0100",
+    // Digits only, including country code — used for wa.me links.
+    whatsapp: "15550100",
     address: {
       street: "123 Example Street, Suite 100",
       city: "Anytown",
@@ -56,9 +58,16 @@ export function absoluteUrl(path = "/"): string {
   return `${siteConfig.url}${clean}`;
 }
 
+/** Build a WhatsApp click-to-chat link with an optional pre-filled message. */
+export function whatsappLink(message?: string): string {
+  const base = `https://wa.me/${siteConfig.contact.whatsapp}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
+
 export const mainNav = [
   { title: "Home", href: "/" },
   { title: "Properties", href: "/properties" },
+  { title: "Investment", href: "/investment" },
   { title: "About", href: "/about" },
   { title: "Contact", href: "/contact" },
 ] as const;

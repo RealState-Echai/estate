@@ -12,9 +12,15 @@ import {
   type PropertyType,
   statusLabels,
   typeLabels,
+  getAllCities,
 } from "@/lib/properties";
 
-type SortKey = "featured" | "price-asc" | "price-desc" | "area-desc";
+type SortKey =
+  | "featured"
+  | "price-asc"
+  | "price-desc"
+  | "area-desc"
+  | "yield-desc";
 
 export function PropertyExplorer({
   properties,
@@ -27,12 +33,15 @@ export function PropertyExplorer({
   const params = useSearchParams();
   const initialType = params.get("type") ?? "all";
 
+  const cities = getAllCities();
+
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [type, setType] = useState<PropertyType | "all">(
     (Object.keys(typeLabels).includes(initialType)
       ? initialType
       : "all") as PropertyType | "all",
   );
+  const [city, setCity] = useState<string>(params.get("city") ?? "all");
   const [status, setStatus] = useState<PropertyStatus | "all">("all");
   const [sort, setSort] = useState<SortKey>("featured");
 
@@ -40,6 +49,7 @@ export function PropertyExplorer({
     const q = query.trim().toLowerCase();
     let list = properties.filter((p) => {
       const matchesType = type === "all" || p.type === type;
+      const matchesCity = city === "all" || p.address.city === city;
       const matchesStatus = status === "all" || p.status === status;
       const matchesQuery =
         q === "" ||
@@ -47,7 +57,7 @@ export function PropertyExplorer({
         p.address.city.toLowerCase().includes(q) ||
         p.address.region.toLowerCase().includes(q) ||
         p.excerpt.toLowerCase().includes(q);
-      return matchesType && matchesStatus && matchesQuery;
+      return matchesType && matchesCity && matchesStatus && matchesQuery;
     });
 
     list = [...list].sort((a, b) => {
@@ -58,12 +68,14 @@ export function PropertyExplorer({
           return b.price - a.price;
         case "area-desc":
           return b.area - a.area;
+        case "yield-desc":
+          return (b.rentalYield ?? 0) - (a.rentalYield ?? 0);
         default:
           return Number(b.featured) - Number(a.featured);
       }
     });
     return list;
-  }, [properties, query, type, status, sort]);
+  }, [properties, query, type, city, status, sort]);
 
   return (
     <div>
@@ -73,7 +85,7 @@ export function PropertyExplorer({
         onSubmit={(e) => e.preventDefault()}
       >
         <div className="grid gap-3 lg:grid-cols-12">
-          <div className="relative lg:col-span-5">
+          <div className="relative lg:col-span-4">
             <Search
               className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
               aria-hidden
@@ -112,6 +124,24 @@ export function PropertyExplorer({
           </div>
 
           <div className="lg:col-span-2">
+            <label htmlFor="filter-city" className="sr-only">
+              Location
+            </label>
+            <Select
+              id="filter-city"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            >
+              <option value="all">All locations</option>
+              {cities.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </Select>
+          </div>
+
+          <div className="lg:col-span-2">
             <label htmlFor="filter-status" className="sr-only">
               Availability
             </label>
@@ -131,7 +161,7 @@ export function PropertyExplorer({
             </Select>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-2">
             <label htmlFor="filter-sort" className="sr-only">
               Sort order
             </label>
@@ -150,6 +180,7 @@ export function PropertyExplorer({
                 <option value="price-asc">Price: low to high</option>
                 <option value="price-desc">Price: high to low</option>
                 <option value="area-desc">Largest first</option>
+                <option value="yield-desc">Highest yield</option>
               </Select>
             </div>
           </div>

@@ -19,6 +19,8 @@ export interface PropertyImage {
 
 export interface Property {
   slug: string;
+  /** Short public reference code, e.g. "RT-001". */
+  propertyId: string;
   title: string;
   /** One-line summary used in cards and meta descriptions. */
   excerpt: string;
@@ -35,7 +37,17 @@ export interface Property {
   lotSize?: number;
   yearBuilt: number;
   garage: number;
+  /** Compass orientation of the main aspect, e.g. "East". */
+  facing: string;
   featured: boolean;
+  /** Trust signals shown as badges. */
+  verified: boolean;
+  ownerDirect: boolean;
+  hotDeal?: boolean;
+  /** Income-generating properties carry these investment figures. */
+  monthlyIncome?: number;
+  /** Gross annual rental yield as a percentage, e.g. 4.2. */
+  rentalYield?: number;
   address: {
     street: string;
     city: string;
@@ -62,6 +74,10 @@ const img = (id: string, alt: string): PropertyImage => ({
 export const properties: Property[] = [
   {
     slug: "azure-cliff-villa",
+    propertyId: "RT-001",
+    facing: "West",
+    verified: true,
+    ownerDirect: false,
     title: "Azure Cliff Villa",
     excerpt:
       "A glass-walled modern villa perched above the Pacific with infinity pool and panoramic ocean views.",
@@ -111,6 +127,12 @@ export const properties: Property[] = [
   },
   {
     slug: "skyline-penthouse-one",
+    propertyId: "RT-002",
+    facing: "South",
+    verified: true,
+    ownerDirect: false,
+    monthlyIncome: 38000,
+    rentalYield: 3.7,
     title: "Skyline Penthouse One",
     excerpt:
       "A full-floor penthouse wrapped in glass, 58 storeys above the city with a private rooftop terrace.",
@@ -159,6 +181,10 @@ export const properties: Property[] = [
   },
   {
     slug: "willow-hall-estate",
+    propertyId: "RT-003",
+    facing: "East",
+    verified: true,
+    ownerDirect: false,
     title: "Willow Hall Estate",
     excerpt:
       "A gated 1.5-acre estate with reflecting pond, guest house, and meticulously landscaped grounds.",
@@ -208,6 +234,13 @@ export const properties: Property[] = [
   },
   {
     slug: "harborview-townhouse",
+    propertyId: "RT-004",
+    facing: "North",
+    verified: true,
+    ownerDirect: true,
+    hotDeal: true,
+    monthlyIncome: 14500,
+    rentalYield: 4.1,
     title: "Harborview Townhouse",
     excerpt:
       "A four-storey waterfront townhouse with private dock access and a roof deck overlooking the marina.",
@@ -256,6 +289,12 @@ export const properties: Property[] = [
   },
   {
     slug: "the-vineyard-residence",
+    propertyId: "RT-005",
+    facing: "East",
+    verified: true,
+    ownerDirect: true,
+    monthlyIncome: 28000,
+    rentalYield: 4.9,
     title: "The Vineyard Residence",
     excerpt:
       "A modern farmhouse on five acres of working vineyard with a barrel room and alfresco dining pavilion.",
@@ -305,6 +344,11 @@ export const properties: Property[] = [
   },
   {
     slug: "the-glass-house-loft",
+    propertyId: "RT-006",
+    facing: "North-East",
+    verified: true,
+    ownerDirect: false,
+    hotDeal: true,
     title: "The Glass House Loft",
     excerpt:
       "A light-filled designer loft in a converted landmark building with soaring ceilings and a private terrace.",
@@ -371,6 +415,23 @@ export function getPropertyBySlug(slug: string): Property | undefined {
 
 export function getFeaturedProperties(): Property[] {
   return properties.filter((p) => p.featured);
+}
+
+/** Income-generating listings, highest gross yield first. */
+export function getInvestmentProperties(): Property[] {
+  return properties
+    .filter((p) => p.monthlyIncome != null && p.rentalYield != null)
+    .sort((a, b) => (b.rentalYield ?? 0) - (a.rentalYield ?? 0));
+}
+
+/** Sorted list of unique cities for the location filter. */
+export function getAllCities(): string[] {
+  return Array.from(new Set(properties.map((p) => p.address.city))).sort();
+}
+
+/** Whole-dollar price per square foot (sale listings). */
+export function pricePerSqft(property: Property): number {
+  return Math.round(property.price / property.area);
 }
 
 export const statusLabels: Record<PropertyStatus, string> = {
