@@ -67,6 +67,7 @@ export function whatsappLink(message?: string): string {
 export const mainNav = [
   { title: "Home", href: "/" },
   { title: "Properties", href: "/properties" },
+  { title: "Auctions", href: "/auctions" },
   { title: "Investment", href: "/investment" },
   { title: "About", href: "/about" },
   { title: "Contact", href: "/contact" },

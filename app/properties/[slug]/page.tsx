@@ -326,6 +326,30 @@ export default async function PropertyDetailPage({
                 ))}
               </ul>
             </div>
+
+            {/* Specifications */}
+            {property.specs && property.specs.length > 0 && (
+              <div className="mt-10">
+                <h2 className="font-display text-2xl font-semibold">
+                  Specifications
+                </h2>
+                <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+                  {property.specs.map((s) => (
+                    <div
+                      key={s.label}
+                      className="flex items-center justify-between border-b border-border py-2"
+                    >
+                      <dt className="text-sm text-muted-foreground">
+                        {s.label}
+                      </dt>
+                      <dd className="text-sm font-medium text-foreground">
+                        {s.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            )}
           </div>
 
           {/* Sticky sidebar */}

@@ -11,7 +11,8 @@ export type PropertyType =
   | "estate"
   | "apartment"
   | "townhouse"
-  | "plot";
+  | "plot"
+  | "commercial";
 export type Currency = "USD" | "INR";
 
 export interface PropertyImage {
@@ -62,6 +63,8 @@ export interface Property {
   streetView?: { heading: number; pitch?: number };
   /** Nearby points of interest shown in the location section. */
   nearby: { name: string; distance: string }[];
+  /** Optional extra specifications (units, EB/water connections, etc.). */
+  specs?: { label: string; value: string }[];
   features: string[];
   images: PropertyImage[];
   agent: {
@@ -564,6 +567,147 @@ export const properties: Property[] = [
       email: "meena@example.com",
     },
   },
+  {
+    slug: "c019-commercial-karur",
+    propertyId: "C019",
+    facing: "North",
+    verified: true,
+    ownerDirect: true,
+    featured: false,
+    title: "Commercial Building — 19th Road, Karur",
+    excerpt:
+      "North-facing commercial building on 19th Road, Karur — 2,063 sq ft plot, 5 units, with steady monthly rental income.",
+    description: [
+      "A well-located commercial building on busy 19th Road, Karur. The 2,063 sq ft plot carries a 1,900 sq ft building configured as 5 rentable units, with parking on site.",
+      "Fully connected with 6 EB connections and 3 water connections, currently generating ₹30,000 in monthly rental income — a turnkey income asset.",
+    ],
+    type: "commercial",
+    status: "for-sale",
+    price: 13500000,
+    currency: "INR",
+    bedrooms: 0,
+    bathrooms: 0,
+    area: 2063,
+    lotSize: 2063,
+    yearBuilt: 2015,
+    garage: 1,
+    monthlyIncome: 30000,
+    rentalYield: 2.7,
+    address: {
+      street: "19th Road",
+      city: "Karur",
+      region: "TN",
+      postalCode: "639002",
+      country: "IN",
+    },
+    geo: { lat: 11.3154146, lng: 77.7350716 },
+    streetView: { heading: 0 },
+    nearby: [
+      { name: "Karur town centre", distance: "2.5 km" },
+      { name: "Karur Junction Railway Station", distance: "3.2 km" },
+      { name: "Government Hospital", distance: "2.8 km" },
+      { name: "Central Bus Stand", distance: "3.0 km" },
+    ],
+    specs: [
+      { label: "Total units", value: "5" },
+      { label: "Building area", value: "1,900 sqft" },
+      { label: "EB connections", value: "6" },
+      { label: "Water connections", value: "3" },
+      { label: "Parking", value: "Available" },
+    ],
+    features: [
+      "North facing",
+      "5 rentable units",
+      "On-site parking",
+      "₹30,000 monthly income",
+      "6 EB + 3 water connections",
+      "Main-road frontage",
+    ],
+    images: [
+      {
+        url: "https://panel.muruganrealestate.in/assets/uploads/C019_edit_1_1780567767.jpeg",
+        alt: "C019 commercial building on 19th Road, Karur",
+      },
+      img("photo-1497366216548-37526070297c", "Commercial office interior"),
+      img("photo-1486406146926-c627a92ad1ab", "Commercial building exterior"),
+    ],
+    agent: {
+      name: "Murugan Real Estate",
+      title: "Commercial Sales",
+      phone: "+1-555-0100",
+      email: "commercial@example.com",
+    },
+  },
+  {
+    slug: "c005-commercial-veppampalayam",
+    propertyId: "C005",
+    facing: "East",
+    verified: true,
+    ownerDirect: true,
+    featured: false,
+    title: "Commercial Building — Veppampalayam (near CS Academy)",
+    excerpt:
+      "East-facing commercial building near CS Academy, Veppampalayam — 2,400 sq ft plot with a 9,000 sq ft building across 6 units.",
+    description: [
+      "A substantial commercial building near CS Academy in Veppampalayam. The 2,400 sq ft plot supports a 9,000 sq ft built-up area arranged as 6 units, with parking available.",
+      "Serviced by 7 EB connections and a water connection, currently earning ₹90,000 in monthly rental income.",
+    ],
+    type: "commercial",
+    status: "for-sale",
+    price: 325000000,
+    currency: "INR",
+    bedrooms: 0,
+    bathrooms: 0,
+    area: 2400,
+    lotSize: 2400,
+    yearBuilt: 2016,
+    garage: 1,
+    monthlyIncome: 90000,
+    address: {
+      street: "Near CS Academy, Vallipurathanpalayam",
+      city: "Veppampalayam",
+      region: "TN",
+      postalCode: "638112",
+      country: "IN",
+    },
+    geo: { lat: 11.4486, lng: 77.4373 },
+    streetView: { heading: 90 },
+    nearby: [
+      { name: "CS Academy School", distance: "0.3 km" },
+      { name: "Gobichettipalayam", distance: "8.0 km" },
+      { name: "Nambiyur", distance: "9.5 km" },
+      { name: "Sathyamangalam", distance: "18 km" },
+    ],
+    specs: [
+      { label: "Total units", value: "6" },
+      { label: "Building area", value: "9,000 sqft" },
+      { label: "EB connections", value: "7" },
+      { label: "Water connections", value: "1" },
+      { label: "Parking", value: "Available" },
+    ],
+    features: [
+      "East facing",
+      "6 rentable units",
+      "9,000 sqft built-up area",
+      "₹90,000 monthly income",
+      "On-site parking",
+      "Near CS Academy",
+    ],
+    images: [
+      {
+        url: "https://panel.muruganrealestate.in/assets/uploads/C005_edit_1_1780399420.jpeg",
+        alt: "C005 commercial building near CS Academy, Veppampalayam",
+      },
+      img("photo-1497366811353-6870744d04b2", "Commercial unit interior"),
+      img("photo-1542744173-8e7e53415bb0", "Modern commercial workspace"),
+    ],
+    agent: {
+      name: "Murugan Real Estate",
+      title: "Commercial Sales",
+      phone: "+1-555-0100",
+      email: "commercial@example.com",
+    },
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -617,4 +761,5 @@ export const typeLabels: Record<PropertyType, string> = {
   apartment: "Apartment",
   townhouse: "Townhouse",
   plot: "Plot",
+  commercial: "Commercial",
 };

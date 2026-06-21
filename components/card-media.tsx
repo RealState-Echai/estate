@@ -6,16 +6,8 @@ import { useState } from "react";
 import { ImageIcon, Map as MapIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { mapEmbedSrc } from "@/lib/maps";
 import { type Property, statusLabels, typeLabels } from "@/lib/properties";
-
-// Keyless satellite/hybrid embed — loaded only when the user opens the Map tab.
-function miniMapSrc(lat: number, lng: number): string {
-  const key = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY;
-  if (key) {
-    return `https://www.google.com/maps/embed/v1/view?key=${key}&center=${lat},${lng}&zoom=16&maptype=satellite`;
-  }
-  return `https://maps.google.com/maps?q=${lat},${lng}&t=h&z=16&hl=en&output=embed`;
-}
 
 export function CardMedia({
   property,
@@ -47,7 +39,7 @@ export function CardMedia({
         </>
       ) : (
         <iframe
-          src={miniMapSrc(property.geo.lat, property.geo.lng)}
+          src={mapEmbedSrc("satellite", property.geo.lat, property.geo.lng)}
           title={`Map of ${property.title}`}
           className="absolute inset-0 size-full border-0"
           loading="lazy"

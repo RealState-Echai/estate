@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/site";
 import { getAllProperties } from "@/lib/properties";
+import { getAllAuctionSlugs } from "@/lib/auctions";
 
 // Required for `output: "export"` — emit a static sitemap at build time.
 export const dynamic = "force-static";
@@ -34,6 +35,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${base}/auctions/`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
       url: `${base}/about/`,
       lastModified: now,
       changeFrequency: "monthly",
@@ -56,5 +63,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  return [...staticRoutes, ...propertyRoutes];
+  const auctionRoutes: MetadataRoute.Sitemap = getAllAuctionSlugs().map(
+    (slug) => ({
+      url: `${base}/auctions/${slug}/`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.7,
+    }),
+  );
+
+  return [...staticRoutes, ...propertyRoutes, ...auctionRoutes];
 }
